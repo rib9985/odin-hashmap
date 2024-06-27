@@ -43,32 +43,61 @@ export default class Hashmap {
     const position = this.getPosition(key);
     const bucket = this.buckets[position];
     const data = bucket.findData(key);
-    return data;
+    if (data) {
+      return data;
+    } else {
+      return null;
+    }
   }
 
-  has(key) {}
+  has(key) {
+    const position = this.getPosition(key);
+    const bucket = this.buckets[position];
+    const data = bucket.findData(key);
+    if (data) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  remove(key) {}
+  remove(key) {
+    const position = this.getPosition(key);
+    const bucket = this.buckets[position];
+    const linkedListIndex = bucket.findIndex(key);
+    if (linkedListIndex) {
+      bucket.removeAt(linkedListIndex);
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   length() {
-    let occupied = 0;
+    let count = 0;
     for (let index = 0; index < this.buckets.length; index++) {
-      const element = this.buckets[index];
-      if (element == typeof String) {
-        occupied++;
+      const bucketToCheck = this.buckets[index];
+      if (bucketToCheck.head != null) {
+        count += bucketToCheck.size();
       }
     }
-    return occupied;
+    return count;
   }
 
   clear() {
-    for (let index = 0; index < this.buckets.length; index++) {
-      const element = this.buckets[index];
-      element = null;
-    }
+    this.buckets.map((element) => null).map(new LinkedList());
   }
 
-  keys() {}
+  keys() {
+    let dataArray = [];
+    for (let index = 0; index < this.buckets.length; index++) {
+      const bucketToCheck = this.buckets[index];
+      if (bucketToCheck.head != null) {
+        dataArray.push(...bucketToCheck.dataToArray());
+      }
+    }
+    return dataArray;
+  }
   values() {}
   entries() {}
 }

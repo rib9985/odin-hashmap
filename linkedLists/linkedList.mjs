@@ -102,7 +102,7 @@ export class LinkedList {
     let nodeToCheck = this.head;
     let found = null;
     while (nodeToCheck != null) {
-      if (nodeToCheck.data == data) {
+      if (nodeToCheck.data.key == data) {
         found = nodeToCheck.index;
         return found;
       }
@@ -132,6 +132,16 @@ export class LinkedList {
       nodeToCheck = nodeToCheck.nextNode;
     }
     return initialString + "( null )";
+  }
+
+  dataToArray() {
+    let initialArray = [];
+    let nodeToCheck = this.head;
+    while (nodeToCheck != null) {
+      initialArray.push(nodeToCheck.data);
+      nodeToCheck = nodeToCheck.nextNode;
+    }
+    return initialArray;
   }
 
   insertAt(data, index) {

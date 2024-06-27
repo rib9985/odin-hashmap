@@ -18,3 +18,10 @@ console.log(test);
 console.log(test.get("apple"));
 console.log(test.get("banana"));
 console.log(test.get("storage"));
+
+console.log(test.has("apple"));
+console.log(test.has("banana"));
+console.log(test.has("storage"));
+
+console.log(test.length());
+console.log(test.keys());
