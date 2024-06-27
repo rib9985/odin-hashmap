@@ -1,25 +1,12 @@
-// Hash function based on Donald E Knuth hash -> Art of Programming
 export default function hashFunction(string) {
-  let length = string.length;
-  let hash = length;
-  let i = 0;
+  let hashCode = 0;
 
-  for (i = 0; i < length; i++) {
-    hash = (hash << 5) ^ (hash >> 27) ^ string[i] % 16;
+  const primeNumber = 31;
+  for (let i = 0; i < string.length; i++) {
+    hashCode = primeNumber * hashCode + string.charCodeAt(i);
   }
-  return hash;
+
+  return hashCode;
 }
 
-/* Testing for the hash function
-
-console.log(hashFunction("hello123"));
-console.log(hashFunction("123"));
-console.log(hashFunction("hello"));
-console.log(hashFunction("123"));
-
-*/
-console.log(hashFunction("hello12asdfasdfasdf12341"));
-console.log(hashFunction("123"));
-console.log(hashFunction("hello"));
-console.log(hashFunction("123"));
-console.log(hashFunction("12312"));
+console.log(hashFunction("red"));

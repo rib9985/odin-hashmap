@@ -15,3 +15,6 @@ test.set("kite", "pink");
 test.set("lion", "golden");
 
 console.log(test);
+console.log(test.get("apple"));
+console.log(test.get("banana"));
+console.log(test.get("storage"));
