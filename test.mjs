@@ -14,12 +14,12 @@ test.set("hat", "black");
 test.set("ice cream", "white");
 test.set("jacket", "blue");
 test.set("kite", "pink");
-test.set("tiger", "golden");
-test.set("mighty", "lord");
-console.log(test.length()); //should be 12
-console.log(test);
+console.log(test.length()); //should be 13
+console.log(test.entries());
+test.set("hat", "silly");
 console.log(test.entries());
 console.log(test.length()); //should be 13
+
 // console.log(test.get("apple"));
 // console.log(test.get("banana"));
 // console.log(test.get("storage"));

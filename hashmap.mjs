@@ -22,7 +22,6 @@ export default class Hashmap {
     return hash;
   }
 
-  //Returns the index of the data element at current load factor (bucketSize)
   getPosition(key) {
     const indexPosition = this.hash(key) % this.bucketSize;
     const bucket = this.buckets[indexPosition];
@@ -36,12 +35,13 @@ export default class Hashmap {
     };
 
     const bucket = this.getPosition(key);
-    if (bucket.findData(key)) {
+    if (bucket.changeData(key, value)) {
       return;
     } else {
-      if (this.checkForRehash()) {
+      if (this.checkForRehash() == true) {
         this.rehash();
-        bucket.append(data);
+        const newBucketPosition = this.getPosition(key);
+        newBucketPosition.append(data);
       } else {
         bucket.append(data);
       }

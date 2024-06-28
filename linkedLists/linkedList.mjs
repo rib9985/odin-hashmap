@@ -124,6 +124,20 @@ export class LinkedList {
     return found;
   }
 
+  changeData(key, newValue) {
+    let nodeToCheck = this.head;
+    let found = null;
+    while (nodeToCheck != null) {
+      if (nodeToCheck.data.key == key) {
+        nodeToCheck.data.value = newValue;
+        found = nodeToCheck.data;
+        return found;
+      }
+      nodeToCheck = nodeToCheck.nextNode;
+    }
+    return found;
+  }
+
   toString() {
     let initialString = "";
     let nodeToCheck = this.head;
