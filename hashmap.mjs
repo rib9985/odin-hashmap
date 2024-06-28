@@ -24,7 +24,9 @@ export default class Hashmap {
 
   //Returns the index of the data element at current load factor (bucketSize)
   getPosition(key) {
-    return this.hash(key) % this.bucketSize;
+    const indexPosition = this.hash(key) % this.bucketSize;
+    const bucket = this.buckets[indexPosition];
+    return bucket;
   }
 
   set(key, value) {
@@ -33,18 +35,21 @@ export default class Hashmap {
       value,
     };
 
-    const position = this.getPosition(key);
-    const bucket = this.buckets[position];
+    const bucket = this.getPosition(key);
     if (bucket.findData(key)) {
       return;
     } else {
-      bucket.append(data);
+      if (this.checkForRehash()) {
+        this.rehash();
+        bucket.append(data);
+      } else {
+        bucket.append(data);
+      }
     }
   }
 
   get(key) {
-    const position = this.getPosition(key);
-    const bucket = this.buckets[position];
+    const bucket = this.getPosition(key);
     const data = bucket.findData(key);
     if (data) {
       return data;
@@ -54,8 +59,7 @@ export default class Hashmap {
   }
 
   has(key) {
-    const position = this.getPosition(key);
-    const bucket = this.buckets[position];
+    const bucket = this.getPosition(key);
     const data = bucket.findData(key);
     if (data) {
       return true;
@@ -65,8 +69,7 @@ export default class Hashmap {
   }
 
   remove(key) {
-    const position = this.getPosition(key);
-    const bucket = this.buckets[position];
+    const bucket = this.getPosition(key);
     const linkedListIndex = bucket.findIndex(key);
     if (linkedListIndex != null) {
       bucket.removeAt(linkedListIndex);
@@ -111,18 +114,20 @@ export default class Hashmap {
   }
 
   rehash() {
+    const currentEntries = this.entries();
+    this.bucketSize = this.bucketSize * 2;
+    this.clear();
+    this.buckets = new Array(this.bucketSize)
+      .fill(null)
+      .map((element) => (element = new LinkedList()));
+    for (let index = 0; index < currentEntries.length; index++) {
+      this.set(currentEntries[index].key, currentEntries[index].value);
+    }
+  }
+
+  checkForRehash() {
     const loadFactor = this.length() / this.bucketSize;
     if (loadFactor >= 0.75) {
-      console.log("Rehashing required");
-      const currentEntries = this.entries();
-      this.bucketSize = this.bucketSize * 2;
-      this.clear();
-      this.buckets = new Array(this.bucketSize)
-        .fill(null)
-        .map((element) => (element = new LinkedList()));
-      for (let index = 0; index < currentEntries.length; index++) {
-        this.set(currentEntries[index].key, currentEntries[index].value);
-      }
       return true;
     } else {
       return false;
