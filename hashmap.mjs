@@ -6,7 +6,6 @@ export default class Hashmap {
       .fill(null)
       .map((element) => new LinkedList());
     this.bucketSize = size;
-    this.loadFactor = this.buckets.length / size;
   }
 
   //Just checking the types for the hash, returns the hash
@@ -36,7 +35,11 @@ export default class Hashmap {
 
     const position = this.getPosition(key);
     const bucket = this.buckets[position];
-    bucket.append(data);
+    if (bucket.findData(key)) {
+      return;
+    } else {
+      bucket.append(data);
+    }
   }
 
   get(key) {
@@ -65,7 +68,7 @@ export default class Hashmap {
     const position = this.getPosition(key);
     const bucket = this.buckets[position];
     const linkedListIndex = bucket.findIndex(key);
-    if (linkedListIndex) {
+    if (linkedListIndex != null) {
       bucket.removeAt(linkedListIndex);
       return true;
     } else {
@@ -89,6 +92,14 @@ export default class Hashmap {
   }
 
   keys() {
+    return this.entries().map((element) => element.key);
+  }
+
+  values() {
+    return this.entries().map((element) => element.value);
+  }
+
+  entries() {
     let dataArray = [];
     for (let index = 0; index < this.buckets.length; index++) {
       const bucketToCheck = this.buckets[index];
@@ -98,6 +109,19 @@ export default class Hashmap {
     }
     return dataArray;
   }
-  values() {}
-  entries() {}
+
+  rehash() {
+    const loadFactor = this.length() / this.bucketSize;
+    if (loadFactor >= 0.75) {
+      const currentEntries = this.entries();
+      this.bucketSize = this.bucketSize * 2;
+      this.clear();
+      this.buckets = new Array(this.bucketSize)
+        .fill(null)
+        .map((element) => new LinkedList());
+      currentEntries.forEach((element) => this.set(element.key, element.value));
+    } else {
+      return false;
+    }
+  }
 }

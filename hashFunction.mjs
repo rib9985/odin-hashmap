@@ -8,5 +8,3 @@ export default function hashFunction(string) {
 
   return hashCode;
 }
-
-console.log(hashFunction("red"));

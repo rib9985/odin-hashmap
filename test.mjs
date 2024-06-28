@@ -13,15 +13,20 @@ test.set("ice cream", "white");
 test.set("jacket", "blue");
 test.set("kite", "pink");
 test.set("lion", "golden");
+test.set("peter", "pan");
 
-console.log(test);
-console.log(test.get("apple"));
-console.log(test.get("banana"));
-console.log(test.get("storage"));
+// console.log(test);
+// console.log(test.get("apple"));
+// console.log(test.get("banana"));
+// console.log(test.get("storage"));
+//
+// console.log(test.has("apple"));
+// console.log(test.has("banana"));
+// console.log(test.has("storage"));
+//
+// console.log(test.keys());
+// console.log(test.values());
 
-console.log(test.has("apple"));
-console.log(test.has("banana"));
-console.log(test.has("storage"));
-
-console.log(test.length());
-console.log(test.keys());
+console.log(test.length()); //should be 13
+console.log(test.entries());
+console.log(test.rehash()); //should return true
