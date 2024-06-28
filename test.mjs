@@ -30,3 +30,5 @@ test.set("peter", "pan");
 console.log(test.length()); //should be 13
 console.log(test.entries());
 console.log(test.rehash()); //should return true
+console.log(test.entries());
+console.log(test);

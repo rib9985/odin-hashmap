@@ -88,7 +88,7 @@ export default class Hashmap {
   }
 
   clear() {
-    this.buckets.map((element) => null).map(new LinkedList());
+    this.buckets.map((element) => null).map((element) => new LinkedList());
   }
 
   keys() {
@@ -113,13 +113,17 @@ export default class Hashmap {
   rehash() {
     const loadFactor = this.length() / this.bucketSize;
     if (loadFactor >= 0.75) {
+      console.log("Rehashing required");
       const currentEntries = this.entries();
       this.bucketSize = this.bucketSize * 2;
       this.clear();
       this.buckets = new Array(this.bucketSize)
         .fill(null)
-        .map((element) => new LinkedList());
-      currentEntries.forEach((element) => this.set(element.key, element.value));
+        .map((element) => (element = new LinkedList()));
+      for (let index = 0; index < currentEntries.length; index++) {
+        this.set(currentEntries[index].key, currentEntries[index].value);
+      }
+      return true;
     } else {
       return false;
     }
